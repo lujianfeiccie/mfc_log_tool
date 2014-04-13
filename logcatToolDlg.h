@@ -41,14 +41,15 @@ protected:
 public:
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnBnClickedEnd();
-public:
-	CEdit _strOutput;
+
+	//实现Ctrl+A全选
+	afx_msg BOOL PreTranslateMessage(MSG* pMsg);
 public:
 	CListCtrl _list1;
 public:
 	afx_msg void OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult);
 public:
 	CEdit _strInput;
-
+	CEdit _strOutput;
 	void InsertItem(CString item);
 };

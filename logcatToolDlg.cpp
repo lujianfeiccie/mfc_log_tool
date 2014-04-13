@@ -267,6 +267,32 @@ LRESULT ClogcatToolDlg::DoUpdate(WPARAM iParam1,LPARAM iParam2){
 	UpdateWindow();
  return 0;
 }
+//实现edit control全选
+BOOL ClogcatToolDlg::PreTranslateMessage(MSG* pMsg)
+{
+// TODO: Add your specialized code here and/or call the base class
+	if (pMsg->message==WM_KEYDOWN)
+	{
+	BOOL bCtrl=::GetKeyState(VK_CONTROL)&0x8000;
+	BOOL bShift=::GetKeyState(VK_SHIFT)&0x8000;
+
+	// only gets here if CTRL key is pressed
+	BOOL bAlt=::GetKeyState(VK_MENU)&0x8000;
+	
+	Util::LOG("Ctrl=%d Shift=%d Alt=%d Keycode=%d",bCtrl,bShift,bAlt,pMsg->wParam);
+	switch( pMsg->wParam )
+	{
+		
+		case 'A':
+		if (bCtrl){
+			_strInput.SetSel(0,-1);
+			Util::LOG("Ctrl + A");			
+		}
+		break;
+		}
+	}
+return CDialog::PreTranslateMessage(pMsg);
+}
 
 void ClogcatToolDlg::OnBnClickedOk()
 {
