@@ -155,7 +155,7 @@ BOOL ClogcatToolDlg::OnInitDialog()
 	 for(int i=0;i<n;i++)
 	 {
 		 CString keyname = "";	
-		 keyname.Format("%s%i",KEY_NAME,i);
+		 keyname.Format("%s%i",KEY_NAME,n-i-1);
 		 CString item = ReadDataFromFile(keyname);
 		 _list1.InsertItem(0,item);
 	 }
