@@ -4,17 +4,16 @@
 #pragma once
 #include "afxwin.h"
 #include "afxcmn.h"
-#define MAX_SIZE 1024*10
+#include "Command.h"
 
 // ClogcatToolDlg 对话框
 class ClogcatToolDlg : public CDialog
 {
 // 构造
 public:
-	SECURITY_ATTRIBUTES sa;
-	HANDLE hRead,hWrite; 
-	char buffer[MAX_SIZE];
+	Command _command;
 	DWORD bytesRead;
+	char buffer[MAX_SIZE];
 	CString strOutput;
 	LRESULT DoUpdate(WPARAM iParam1,LPARAM iParam2);
 	bool _isRunning;
@@ -41,14 +40,15 @@ protected:
 public:
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnBnClickedEnd();
-public:
-	CEdit _strOutput;
+
+	//实现Ctrl+A全选
+	afx_msg BOOL PreTranslateMessage(MSG* pMsg);
 public:
 	CListCtrl _list1;
 public:
 	afx_msg void OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult);
 public:
 	CEdit _strInput;
-
+	CEdit _strOutput;
 	void InsertItem(CString item);
 };
