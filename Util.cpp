@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "Util.h"
-//#define DEBUG_LOG
+#define DEBUG_LOG
 Util::Util(void)
 {
 }

@@ -51,4 +51,5 @@ public:
 	CEdit _strInput;
 	CEdit _strOutput;
 	void InsertItem(CString item);
+	afx_msg void OnMenuCreateAndroidProj();
 };

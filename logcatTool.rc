@@ -13,13 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// 中文(中华人民共和国) resources
+// 中文(简体，中国) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
-#ifdef _WIN32
 LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
 #pragma code_page(936)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -86,6 +84,7 @@ IDD_LOGCATTOOL_DIALOG DIALOGEX 0, 0, 447, 330
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
 CAPTION "logcatTool"
+MENU IDR_MENU1
 FONT 9, "宋体", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "确定",IDOK,382,15,50,16
@@ -93,6 +92,25 @@ BEGIN
     EDITTEXT        IDC_EDIT_CMD,19,15,353,14,ES_AUTOHSCROLL
     PUSHBUTTON      "结束",IDC_BUTTON_END,383,43,50,14
     CONTROL         "",IDC_LIST1,"SysListView32",LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,20,35,353,67
+END
+
+IDD_CREATEANDROIDPROJECT DIALOGEX 0, 0, 320, 200
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "创建Android工程"
+FONT 9, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "确定",IDOK,230,19,50,14
+    PUSHBUTTON      "取消",IDCANCEL,232,75,50,14
+    LTEXT           "工程名称:",IDC_STATIC,16,15,31,8
+    LTEXT           "目标ID:",IDC_STATIC,21,40,24,8
+    LTEXT           "输出路径:",IDC_STATIC,15,66,31,8
+    LTEXT           "包名:",IDC_STATIC,28,89,17,8
+    LTEXT           "启动类名:",IDC_STATIC,15,111,31,8
+    EDITTEXT        IDC_EDIT1,51,13,149,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT2,52,37,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT3,51,62,152,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT4,51,86,152,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT5,51,109,153,14,ES_AUTOHSCROLL
 END
 
 
@@ -141,7 +159,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_ABOUTBOX, DIALOG
     BEGIN
@@ -158,8 +176,31 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 323
     END
+
+    IDD_CREATEANDROIDPROJECT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 313
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 193
+    END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU1 MENU
+BEGIN
+    POPUP "Android相关"
+    BEGIN
+        MENUITEM "创建工程",                        ID_ANDROID32771
+        MENUITEM "",                            ID_Menu
+    END
+END
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -167,12 +208,12 @@ END
 // String Table
 //
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_ABOUTBOX            "关于 logcatTool(&A)..."
 END
 
-#endif    // 中文(中华人民共和国) resources
+#endif    // 中文(简体，中国) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

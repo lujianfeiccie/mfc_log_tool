@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "logcatTool.h"
 #include "logcatToolDlg.h"
-
+#include "CreateAndroidProject.h"
 #define WM_MY_UPDATE WM_USER+1 // do something
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -101,6 +101,7 @@ BEGIN_MESSAGE_MAP(ClogcatToolDlg, CDialog)
 	ON_BN_CLICKED(IDOK, &ClogcatToolDlg::OnBnClickedOk)
 	ON_BN_CLICKED(IDC_BUTTON_END, &ClogcatToolDlg::OnBnClickedEnd)	
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, &ClogcatToolDlg::OnLvnItemchangedList1)
+	ON_COMMAND(ID_ANDROID32771, &ClogcatToolDlg::OnMenuCreateAndroidProj)
 END_MESSAGE_MAP()
 
 
@@ -370,4 +371,14 @@ void ClogcatToolDlg::InsertItem(CString item){
 		 }
 		_list1.InsertItem(0,item);
 	 }
+}
+
+
+void ClogcatToolDlg::OnMenuCreateAndroidProj()
+{
+	// TODO: 在此添加命令处理程序代码
+	CCreateAndroidProject dlg;
+	dlg.DoModal();
+
+	Util::LOG("OnMenuCreateAndroidProj");
 }
