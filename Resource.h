@@ -18,6 +18,9 @@
 #define IDC_EDIT3                       1006
 #define IDC_EDIT4                       1007
 #define IDC_EDIT5                       1008
+#define IDC_EDIT6                       1009
+#define IDC_BUTTON1                     1010
+#define IDC_BTN_BROWSER                 1011
 #define ID_ANDROID32771                 32771
 #define ID_Menu                         32772
 
@@ -27,7 +30,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        131
 #define _APS_NEXT_COMMAND_VALUE         32773
-#define _APS_NEXT_CONTROL_VALUE         1009
+#define _APS_NEXT_CONTROL_VALUE         1012
 #define _APS_NEXT_SYMED_VALUE           104
 #endif
 #endif

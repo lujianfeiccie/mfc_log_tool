@@ -5,41 +5,23 @@
 #include "logcatTool.h"
 #include "logcatToolDlg.h"
 #include "CreateAndroidProject.h"
+
 #define WM_MY_UPDATE WM_USER+1 // do something
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
-#define APP_NAME "APP_NAME"
-#define FILE_NAME "config.ini"
 #define KEY_NAME "tag"
 #define KEY_NAME_COUNT "count"
 #define INI_MAX_COUNT 5
 // 用于应用程序“关于”菜单项的 CAboutDlg 对话框
 void WriteDataToFile(CString keyName,CString keyValue){
-
-	///////////////获取当前文件夹路径//////////////////////
-	char bufferCurDir[1024];
-	GetCurrentDirectory(1024,bufferCurDir);
-	strcat(bufferCurDir,"\\");
-	strcat(bufferCurDir,FILE_NAME);
-	////////////////////////////////////////////////////////
-
-  WritePrivateProfileString(APP_NAME,keyName,keyValue,bufferCurDir);
+  Config::WriteConfig(keyName,keyValue);
 }
 CString ReadDataFromFile(CString keyName){
 	CString result = "";
-
-	///////////////获取当前文件夹路径//////////////////////
-	char bufferCurDir[1024];
-	GetCurrentDirectory(1024,bufferCurDir);
-	strcat(bufferCurDir,"\\");
-	strcat(bufferCurDir,FILE_NAME);
-	///////////////////////////////////////////////////////
-
-  char returnValue[1024];
-  GetPrivateProfileString(APP_NAME,keyName,"",returnValue,1024,bufferCurDir);
-  result.Append(returnValue);
+	Config::ReadConfig(keyName,result.GetBuffer(1024));	
+	result.ReleaseBuffer();
   return result;
 }
 
@@ -231,8 +213,8 @@ DWORD WINAPI ThreadProc(LPVOID pParam)
 		memcpy(tmp_buffer,dlg->buffer,dlg->bytesRead);
 
 		CString tmp ;
-		Util::UTF8ToGBK(tmp,tmp_buffer);	
-		dlg->strOutput.Append(tmp);
+		//Util::UTF8ToGBK(tmp,tmp_buffer);	
+		dlg->strOutput.Append(tmp_buffer);
 
 		delete tmp_buffer;
 

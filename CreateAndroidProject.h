@@ -1,4 +1,5 @@
 #pragma once
+#include "afxwin.h"
 
 
 // CCreateAndroidProject 对话框
@@ -18,4 +19,14 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 
 	DECLARE_MESSAGE_MAP()
+public:
+
+	afx_msg void OnBnClickedBtnBrowser();
+	CEdit _editProjectName;
+	CEdit _editTargetID;
+	CEdit _editOutputPath;
+	CEdit _editPackageName;
+	CEdit _editActivityName;
+	CEdit _editSdkPath;
+	afx_msg void OnBnClickedOk();
 };

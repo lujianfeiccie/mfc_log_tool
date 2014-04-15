@@ -106,6 +106,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Command.cpp" />
+    <ClCompile Include="Config.cpp" />
     <ClCompile Include="CreateAndroidProject.cpp" />
     <ClCompile Include="logcatTool.cpp" />
     <ClCompile Include="logcatToolDlg.cpp" />
@@ -117,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Command.h" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="CreateAndroidProject.h" />
     <ClInclude Include="logcatTool.h" />
     <ClInclude Include="logcatToolDlg.h" />
