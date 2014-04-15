@@ -6,16 +6,94 @@
 #include "CreateAndroidProject.h"
 #include "afxdialogex.h"
 #include "Config.h"
+
+
+void ReadFromFile(CString &projectName,
+	CString &targetID,
+	CString &outputPath,
+	CString &packageName,
+	CString &activityName,
+	CString &sdkPath)
+{
+	Config::ReadConfig("projectName",projectName.GetBuffer(1024));
+	projectName.ReleaseBuffer();
+	Config::ReadConfig("targetID",targetID.GetBuffer(1024));
+	targetID.ReleaseBuffer();
+	Config::ReadConfig("outputPath",outputPath.GetBuffer(1024));
+	outputPath.ReleaseBuffer();
+	Config::ReadConfig("packageName",packageName.GetBuffer(1024));
+	packageName.ReleaseBuffer();
+	Config::ReadConfig("activityName",activityName.GetBuffer(1024));
+	activityName.ReleaseBuffer();
+	Config::ReadConfig("sdkPath",sdkPath.GetBuffer(1024));
+	sdkPath.ReleaseBuffer();
+}
+
+void WriteToFile(CString projectName,
+	CString targetID,
+	CString outputPath,
+	CString packageName,
+	CString activityName,
+	CString sdkPath)
+{
+	Config::WriteConfig("projectName",projectName);
+	Config::WriteConfig("targetID",targetID);
+	Config::WriteConfig("outputPath",outputPath);
+	Config::WriteConfig("packageName",packageName);
+	Config::WriteConfig("activityName",activityName);
+	Config::WriteConfig("sdkPath",sdkPath);
+}
 // CCreateAndroidProject 对话框
 
 IMPLEMENT_DYNAMIC(CCreateAndroidProject, CDialog)
 
+
 CCreateAndroidProject::CCreateAndroidProject(CWnd* pParent /*=NULL*/)
 	: CDialog(CCreateAndroidProject::IDD, pParent)
 {
-
+	
 }
+BOOL CCreateAndroidProject::OnInitDialog()
+{
+	CDialog::OnInitDialog();
 
+	// 将“关于...”菜单项添加到系统菜单中。
+
+	// IDM_ABOUTBOX 必须在系统命令范围内。
+	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
+	ASSERT(IDM_ABOUTBOX < 0xF000);
+
+	CMenu* pSysMenu = GetSystemMenu(FALSE);
+	if (pSysMenu != NULL)
+	{
+		CString strAboutMenu;
+		strAboutMenu.LoadString(IDS_ABOUTBOX);
+		if (!strAboutMenu.IsEmpty())
+		{
+			pSysMenu->AppendMenu(MF_SEPARATOR);
+			pSysMenu->AppendMenu(MF_STRING, IDM_ABOUTBOX, strAboutMenu);
+		}
+	}
+
+	// TODO: 在此添加额外的初始化代码
+ CString projectName = "";
+	CString targetID = "";
+	CString outputPath = "";
+	CString packageName = "";
+	CString activityName = "";
+	CString sdkPath = "";
+
+	ReadFromFile(projectName,targetID,outputPath,packageName,activityName,sdkPath);
+
+	_editProjectName.SetWindowText(projectName);
+	_editTargetID.SetWindowText(targetID);
+	_editOutputPath.SetWindowText(outputPath);
+	_editPackageName.SetWindowText(packageName);
+	_editActivityName.SetWindowText(activityName);
+	_editSdkPath.SetWindowText(sdkPath);
+    /////////////////////////////////////////////////////////////////////
+	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
+}
 CCreateAndroidProject::~CCreateAndroidProject()
 {
 }
@@ -44,22 +122,33 @@ END_MESSAGE_MAP()
 void CCreateAndroidProject::OnBnClickedBtnBrowser()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	Util::LOG("Browser clicked");
+	// 获取特定文件夹的LPITEMIDLIST，可以将之理解为HANDLE
+	// 所谓的特定文件夹,你可以用CSIDL_XXX来检索之。
+	LPITEMIDLIST rootLoation;
+	SHGetSpecialFolderLocation( NULL, CSIDL_DESKTOP, &rootLoation );
+	if ( rootLoation == NULL ) {
+	   // unkown error
+	   // return
+	}
+	// 配置对话框
+	BROWSEINFO bi;
+	ZeroMemory( &bi, sizeof( bi ) );
+	bi.pidlRoot = rootLoation; // 文件夹对话框之根目录，不指定的话则为我的电脑
+	bi.lpszTitle = _T( "对话框抬头" ); // 可以不指定
+	// bi.ulFlags = BIF_EDITBOX | BIF_RETURNONLYFSDIRS;
+
+	// 打开对话框, 有点像DoModal
+	LPITEMIDLIST targetLocation = SHBrowseForFolder( &bi );
+	if ( targetLocation != NULL ) {
+	   TCHAR targetPath[ MAX_PATH ];
+	   SHGetPathFromIDList( targetLocation, targetPath );
+	   _editSdkPath.SetWindowText(targetPath);
+	   // MessageBox( targetPath );
+	 //  Util::LOG(L"Browser clicked %s",targetPath);
+	}
+	
 }
-void WriteToFile(CString projectName,
-	CString targetID,
-	CString outputPath,
-	CString packageName,
-	CString activityName,
-	CString sdkPath)
-{
-	Config::WriteConfig("projectName",projectName);
-	Config::WriteConfig("targetID",targetID);
-	Config::WriteConfig("outputPath",outputPath);
-	Config::WriteConfig("packageName",packageName);
-	Config::WriteConfig("activityName",activityName);
-	Config::WriteConfig("sdkPath",sdkPath);
-}
+
 void CCreateAndroidProject::OnBnClickedOk()
 {	
 	CString projectName = "";

@@ -16,6 +16,7 @@ public:
 	enum { IDD = IDD_CREATEANDROIDPROJECT };
 
 protected:
+	virtual BOOL OnInitDialog();
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
 
 	DECLARE_MESSAGE_MAP()
