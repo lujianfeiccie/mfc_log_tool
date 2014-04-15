@@ -53,4 +53,5 @@ public:
 	CEdit _strOutput;
 	void InsertItem(CString item);
 	afx_msg void OnMenuCreateAndroidProj();
+	CButton _cbxFromUtf8ToGBK;
 };
