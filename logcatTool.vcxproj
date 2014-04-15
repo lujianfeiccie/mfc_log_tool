@@ -107,9 +107,10 @@
   <ItemGroup>
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Config.cpp" />
-    <ClCompile Include="CreateAndroidProject.cpp" />
+    <ClCompile Include="CreateAndroidProjectDlg.cpp" />
     <ClCompile Include="logcatTool.cpp" />
     <ClCompile Include="logcatToolDlg.cpp" />
+    <ClCompile Include="ShowCmdDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -119,10 +120,11 @@
   <ItemGroup>
     <ClInclude Include="Command.h" />
     <ClInclude Include="Config.h" />
-    <ClInclude Include="CreateAndroidProject.h" />
+    <ClInclude Include="CreateAndroidProjectDlg.h" />
     <ClInclude Include="logcatTool.h" />
     <ClInclude Include="logcatToolDlg.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="ShowCmdDlg.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Util.h" />
   </ItemGroup>

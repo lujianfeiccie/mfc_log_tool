@@ -4,9 +4,9 @@
 #include "stdafx.h"
 #include "logcatTool.h"
 #include "logcatToolDlg.h"
-#include "CreateAndroidProject.h"
+#include "CreateAndroidProjectDlg.h"
 
-#define WM_MY_UPDATE WM_USER+1 // do something
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -199,7 +199,7 @@ HANDLE hThread;
 DWORD dwThreadId, dwThrdParam = 1; 
 
 
-DWORD WINAPI ThreadProc(LPVOID pParam)
+DWORD WINAPI ClogcatToolDlg::ThreadProc(LPVOID pParam)
 {
 	ClogcatToolDlg* dlg = (ClogcatToolDlg*)pParam;    
 	dlg->_isRunning = true;
@@ -213,12 +213,12 @@ DWORD WINAPI ThreadProc(LPVOID pParam)
 		memcpy(tmp_buffer,dlg->buffer,dlg->bytesRead);
 
 		CString tmp ;
-		//Util::UTF8ToGBK(tmp,tmp_buffer);	
-		dlg->strOutput.Append(tmp_buffer);
+		Util::UTF8ToGBK(tmp,tmp_buffer);	
+		dlg->strOutput.Append(tmp);
 
 		delete tmp_buffer;
 
-		SendMessage(dlg->m_hWnd, WM_MY_UPDATE, (WPARAM) 0, (LPARAM) 0);  
+		SendMessageW(dlg->m_hWnd, WM_MY_UPDATE, (WPARAM) 0, (LPARAM) 0);  
 		Sleep(10);    
 	}  
 	dlg->_command.CloseRead();
@@ -359,7 +359,7 @@ void ClogcatToolDlg::InsertItem(CString item){
 void ClogcatToolDlg::OnMenuCreateAndroidProj()
 {
 	// TODO: 在此添加命令处理程序代码
-	CCreateAndroidProject dlg;
+	CCreateAndroidProjectDlg dlg;
 	dlg.DoModal();
 
 	Util::LOG("OnMenuCreateAndroidProj");

@@ -7,6 +7,7 @@
 #define IDS_ABOUTBOX                    101
 #define IDD_LOGCATTOOL_DIALOG           102
 #define IDD_CREATEANDROIDPROJECT        103
+#define IDD_SHOWCMD                     104
 #define IDR_MAINFRAME                   128
 #define IDR_MENU1                       129
 #define IDC_EDIT_OUTPUT                 1000
@@ -20,6 +21,7 @@
 #define IDC_EDIT5                       1008
 #define IDC_EDIT6                       1009
 #define IDC_BUTTON1                     1010
+#define IDC_BTN_BROWSER_OUTPUT          1010
 #define IDC_BTN_BROWSER                 1011
 #define ID_ANDROID32771                 32771
 #define ID_Menu                         32772
@@ -31,6 +33,6 @@
 #define _APS_NEXT_RESOURCE_VALUE        131
 #define _APS_NEXT_COMMAND_VALUE         32773
 #define _APS_NEXT_CONTROL_VALUE         1012
-#define _APS_NEXT_SYMED_VALUE           104
+#define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif
