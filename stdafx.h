@@ -72,5 +72,7 @@
 
 #include "Util.h"
 #include "Config.h"
+#include "Command.h"
 #include <stdio.h>
 
+#define WM_MY_UPDATE WM_USER+1 // update the cmd output

@@ -43,6 +43,7 @@ public:
 
 	//实现Ctrl+A全选
 	afx_msg BOOL PreTranslateMessage(MSG* pMsg);
+	static DWORD WINAPI ThreadProc(LPVOID pParam);
 public:
 	CListCtrl _list1;
 public:
@@ -52,4 +53,5 @@ public:
 	CEdit _strOutput;
 	void InsertItem(CString item);
 	afx_msg void OnMenuCreateAndroidProj();
+	CButton _cbxFromUtf8ToGBK;
 };

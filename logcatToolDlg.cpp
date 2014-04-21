@@ -4,14 +4,15 @@
 #include "stdafx.h"
 #include "logcatTool.h"
 #include "logcatToolDlg.h"
-#include "CreateAndroidProject.h"
+#include "CreateAndroidProjectDlg.h"
 
-#define WM_MY_UPDATE WM_USER+1 // do something
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
 #define KEY_NAME "tag"
+#define KEY_NAME_UTF8_TO_GBK "utf8_to_gbk"
 #define KEY_NAME_COUNT "count"
 #define INI_MAX_COUNT 5
 // 用于应用程序“关于”菜单项的 CAboutDlg 对话框
@@ -71,6 +72,7 @@ void ClogcatToolDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT_OUTPUT, _strOutput);
 	DDX_Control(pDX, IDC_LIST1, _list1);
 	DDX_Control(pDX, IDC_EDIT_CMD, _strInput);
+	DDX_Control(pDX, IDC_CHECK1, _cbxFromUtf8ToGBK);
 }
 
 BEGIN_MESSAGE_MAP(ClogcatToolDlg, CDialog)
@@ -118,9 +120,8 @@ BOOL ClogcatToolDlg::OnInitDialog()
 
 	// TODO: 在此添加额外的初始化代码
 
-	//////////////////////设置style///////////////////////////////////
-	CString cmd = "adb logcat -s myGLRenderer:V";
-	SetDlgItemText(IDC_EDIT_CMD,cmd);
+	//////////////////////设置style///////////////////////////////////	
+	_strInput.SetWindowText("dir");
 
 	 LONG lStyle;
       lStyle = GetWindowLong(_list1.m_hWnd, GWL_STYLE);//获取当前窗口style
@@ -142,6 +143,16 @@ BOOL ClogcatToolDlg::OnInitDialog()
 		 CString item = ReadDataFromFile(keyname);
 		 _list1.InsertItem(0,item);
 	 }
+	 CString utf8_to_gbk = ReadDataFromFile(KEY_NAME_UTF8_TO_GBK);
+	 if("1"==utf8_to_gbk)
+	 {
+		 _cbxFromUtf8ToGBK.SetCheck(1);
+	 }
+	 else
+	 {
+		 _cbxFromUtf8ToGBK.SetCheck(0);
+	 }
+	 
     /////////////////////////////////////////////////////////////////////
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -199,7 +210,7 @@ HANDLE hThread;
 DWORD dwThreadId, dwThrdParam = 1; 
 
 
-DWORD WINAPI ThreadProc(LPVOID pParam)
+DWORD WINAPI ClogcatToolDlg::ThreadProc(LPVOID pParam)
 {
 	ClogcatToolDlg* dlg = (ClogcatToolDlg*)pParam;    
 	dlg->_isRunning = true;
@@ -212,20 +223,26 @@ DWORD WINAPI ThreadProc(LPVOID pParam)
  		char *tmp_buffer = new char[dlg->bytesRead];
 		memcpy(tmp_buffer,dlg->buffer,dlg->bytesRead);
 
-		CString tmp ;
-		//Util::UTF8ToGBK(tmp,tmp_buffer);	
-		dlg->strOutput.Append(tmp_buffer);
-
+		if(1==dlg->_cbxFromUtf8ToGBK.GetCheck()) //判断是否需要转码
+		{
+			CString tmp ;
+			Util::UTF8ToGBK(tmp,tmp_buffer);	
+			dlg->strOutput.Append(tmp);
+		}
+		else
+		{
+			dlg->strOutput.Append(tmp_buffer);
+		}
 		delete tmp_buffer;
 
-		SendMessage(dlg->m_hWnd, WM_MY_UPDATE, (WPARAM) 0, (LPARAM) 0);  
+		SendMessageW(dlg->m_hWnd, WM_MY_UPDATE, (WPARAM) 0, (LPARAM) 0);  
 		Sleep(10);    
 	}  
 	dlg->_command.CloseRead();
 	return 0;
 }
 LRESULT ClogcatToolDlg::DoUpdate(WPARAM iParam1,LPARAM iParam2){	
-	_strOutput.SetWindowTextA(strOutput);
+	_strOutput.SetWindowText(strOutput);
 	int index=_strOutput.GetLineCount();//获得当前List控件一共多少行
 	_strOutput.LineScroll(index,0);//将垂直滚动条滚动到最后一行
 	UpdateWindow();
@@ -250,6 +267,7 @@ BOOL ClogcatToolDlg::PreTranslateMessage(MSG* pMsg)
 		case 'A':
 		if (bCtrl){
 			_strInput.SetSel(0,-1);
+			_strOutput.SetSel(0,-1);
 			Util::LOG("Ctrl + A");			
 		}
 		break;
@@ -295,6 +313,8 @@ void ClogcatToolDlg::OnBnClickedEnd()
 void ClogcatToolDlg::OnClose()
 {
 CDialog::OnClose();
+_isRunning = false;
+
 //MessageBox("onClose");
  int n=_list1.GetItemCount();
  if(n>INI_MAX_COUNT){
@@ -309,7 +329,11 @@ CDialog::OnClose();
 	 keyname.Format("%s%i",KEY_NAME,i);
 	 WriteDataToFile(keyname,_list1.GetItemText(i,0));
  }
-	_isRunning = false;
+
+ int utf8_to_gbk = _cbxFromUtf8ToGBK.GetCheck();
+ strN.Format("%d",utf8_to_gbk);
+ WriteDataToFile(KEY_NAME_UTF8_TO_GBK,strN);
+	
 }
 
 
@@ -359,7 +383,7 @@ void ClogcatToolDlg::InsertItem(CString item){
 void ClogcatToolDlg::OnMenuCreateAndroidProj()
 {
 	// TODO: 在此添加命令处理程序代码
-	CCreateAndroidProject dlg;
+	CCreateAndroidProjectDlg dlg;
 	dlg.DoModal();
 
 	Util::LOG("OnMenuCreateAndroidProj");
