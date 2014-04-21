@@ -242,7 +242,7 @@ DWORD WINAPI ClogcatToolDlg::ThreadProc(LPVOID pParam)
 	return 0;
 }
 LRESULT ClogcatToolDlg::DoUpdate(WPARAM iParam1,LPARAM iParam2){	
-	_strOutput.SetWindowTextA(strOutput);
+	_strOutput.SetWindowText(strOutput);
 	int index=_strOutput.GetLineCount();//获得当前List控件一共多少行
 	_strOutput.LineScroll(index,0);//将垂直滚动条滚动到最后一行
 	UpdateWindow();
@@ -267,6 +267,7 @@ BOOL ClogcatToolDlg::PreTranslateMessage(MSG* pMsg)
 		case 'A':
 		if (bCtrl){
 			_strInput.SetSel(0,-1);
+			_strOutput.SetSel(0,-1);
 			Util::LOG("Ctrl + A");			
 		}
 		break;
